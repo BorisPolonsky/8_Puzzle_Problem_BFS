@@ -31,10 +31,10 @@ public:
 	STATUS USER_Set8_Puzzle();
 	void Print8_Puzzle();
 	static bool SearchSolution(_8_Puzzle,_8_Puzzle, _8_Puzzle_Solution&);
-	friend bool operator ==(_8_Puzzle &,_8_Puzzle &);
-	friend bool operator ==(_8_Puzzle &, _8_Puzzle const &);
-	friend bool operator !=(_8_Puzzle &, _8_Puzzle &);
-	friend bool operator !=(_8_Puzzle &, _8_Puzzle const &);
+	bool operator ==(_8_Puzzle &);
+	bool operator ==(_8_Puzzle const &);
+	bool operator !=(_8_Puzzle &);
+	bool operator !=(_8_Puzzle const &);
 	
 private:
 	unsigned int Element[9];//Element[]>=0&&Element[]<=8

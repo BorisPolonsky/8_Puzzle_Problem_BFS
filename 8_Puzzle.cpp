@@ -45,36 +45,36 @@ void _8_Puzzle::Print8_Puzzle()
 	cout << "| "<<endl;
 }
 
-bool operator ==(_8_Puzzle &A, _8_Puzzle&B)
+bool _8_Puzzle::operator == (_8_Puzzle& Table)
 {
 	unsigned int i;
 	for (i = 0; i < 9; i++)
 	{
-		if (A.Element[i] != B.Element[i])
+		if (this->Element[i] != Table.Element[i])
 			return(false);
 	}
 	return(true);
 }
 
-bool operator ==(_8_Puzzle &A, _8_Puzzle const &B)
+bool _8_Puzzle::operator == (_8_Puzzle const &Table)
 {
 	unsigned int i;
 	for (i = 0; i < 9; i++)
 	{
-		if (A.Element[i] != B.Element[i])
+		if (this->Element[i] != Table.Element[i])
 			return(false);
 	}
 	return(true);
 }
 
-bool operator !=(_8_Puzzle &A, _8_Puzzle &B)
+bool _8_Puzzle::operator != (_8_Puzzle &Table)
 {
-	return(!(A == B));
+	return(!(*this == Table));
 }
 
-bool operator !=(_8_Puzzle &A, _8_Puzzle const &B)
+bool _8_Puzzle::operator != (_8_Puzzle const &Table)
 {
-	return(!(A == B));
+	return(!(*this == Table));
 }
 
 unsigned int _8_Puzzle::FindZeroIn8_Puzzle(_8_Puzzle Puzzle)
