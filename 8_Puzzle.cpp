@@ -1,6 +1,6 @@
 #include "8_Puzzle.h"
 
-STATUS _8_Puzzle::USER_Set8_Puzzle()
+_8_Puzzle::STATUS _8_Puzzle::USER_Set8_Puzzle()
 {
 	unsigned int i,j;
 	for(i=0;i<3;i++)
@@ -13,7 +13,7 @@ STATUS _8_Puzzle::USER_Set8_Puzzle()
 			cin >> (this->Element[3 * i + j]);
 		}
 	}
-	return(DONE);
+	return(_8_Puzzle::DONE);
 }
 
 void _8_Puzzle::Print8_Puzzle()
@@ -88,7 +88,7 @@ unsigned int _8_Puzzle::FindZeroIn8_Puzzle(_8_Puzzle Puzzle)
 	return(0);
 }
 
-STATUS _8_Puzzle::MoveZeroUp()
+_8_Puzzle::STATUS _8_Puzzle::MoveZeroUp()
 {
 	unsigned int num;
 	num=FindZeroIn8_Puzzle(*this);
@@ -96,13 +96,13 @@ STATUS _8_Puzzle::MoveZeroUp()
 	{
 		this->Element[num-1]=this->Element[num-4];
 		this->Element[num-4]=0;
-		return(DONE);
+		return(_8_Puzzle::DONE);
 	}
 	else
-		return(ERROR);
+		return(_8_Puzzle::ERROR);
 }
 
-STATUS _8_Puzzle::MoveZeroDown()
+_8_Puzzle::STATUS _8_Puzzle::MoveZeroDown()
 {
 	unsigned int num;
 	num=FindZeroIn8_Puzzle(*this);
@@ -110,12 +110,12 @@ STATUS _8_Puzzle::MoveZeroDown()
 	{
 		this->Element[num-1]=this->Element[num+2];
 		this->Element[num+2]=0;
-		return(DONE);
+		return(_8_Puzzle::DONE);
 	}
 	else
-		return(ERROR);
+		return(_8_Puzzle::ERROR);
 }
-STATUS _8_Puzzle::MoveZeroLeft()
+_8_Puzzle::STATUS _8_Puzzle::MoveZeroLeft()
 {
 	unsigned int num;
 	num=FindZeroIn8_Puzzle(*this);
@@ -123,12 +123,12 @@ STATUS _8_Puzzle::MoveZeroLeft()
 	{
 		this->Element[num-1]=this->Element[num-2];
 		this->Element[num-2]=0;
-		return(DONE);
+		return(_8_Puzzle::DONE);
 	}
 	else
-		return(ERROR);
+		return(_8_Puzzle::ERROR);
 }
-STATUS _8_Puzzle::MoveZeroRight()
+_8_Puzzle::STATUS _8_Puzzle::MoveZeroRight()
 {
 	unsigned int num;
 	num=FindZeroIn8_Puzzle(*this);
@@ -136,10 +136,10 @@ STATUS _8_Puzzle::MoveZeroRight()
 	{
 		this->Element[num-1]=this->Element[num];
 		this->Element[num]=0;
-		return(DONE);
+		return(_8_Puzzle::DONE);
 	}
 	else
-		return(ERROR);
+		return(_8_Puzzle::ERROR);
 }
 
 unsigned int _8_Puzzle::HeuristicFunction(_8_Puzzle Target)
@@ -205,7 +205,7 @@ bool _8_Puzzle::SearchSolution(_8_Puzzle Origin,_8_Puzzle Target, _8_Puzzle_Solu
 		TestSolution[num] = open.front();
 		//cout << "Expanding:" << endl;
 		//TestSolution[num].Print8_Puzzle();
-		if (TestSolution[num].MoveZeroUp() == DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
+		if (TestSolution[num].MoveZeroUp() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
 		{
 			TestSolution_p[num] = 1;
 			if (TestSolution[num]==Target)
@@ -218,7 +218,7 @@ bool _8_Puzzle::SearchSolution(_8_Puzzle Origin,_8_Puzzle Target, _8_Puzzle_Solu
 		}
 
 		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroDown() == DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
+		if (TestSolution[num].MoveZeroDown() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
 		{
 			TestSolution_p[num] = 2;
 			if (TestSolution[num]==Target)
@@ -231,7 +231,7 @@ bool _8_Puzzle::SearchSolution(_8_Puzzle Origin,_8_Puzzle Target, _8_Puzzle_Solu
 		}
 
 		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroLeft() == DONE && (find(closed.begin(), closed.end(), TestSolution[num])== closed.end()))
+		if (TestSolution[num].MoveZeroLeft() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
 		{
 			TestSolution_p[num] = 3;
 			if (TestSolution[num]==Target)
@@ -244,7 +244,7 @@ bool _8_Puzzle::SearchSolution(_8_Puzzle Origin,_8_Puzzle Target, _8_Puzzle_Solu
 		}
 
 		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroRight() == DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
+		if (TestSolution[num].MoveZeroRight() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
 		{
 			TestSolution_p[num] = 4;
 			if (TestSolution[num]==Target)

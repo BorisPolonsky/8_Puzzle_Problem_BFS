@@ -1,26 +1,16 @@
-#ifndef __8_Puzzle_H
-#define __8_Puzzle_H
-
-using namespace std;
-
-#define EQ 0
-#define UNEQ !EQ
-#define ERROR 0
-#define DONE 1
-
 #include <iostream>
 #include <vector>
 #include <queue>
 #include <algorithm>
 #include <math.h>
-
-
-typedef unsigned int STATUS;
+using namespace std;
 
 class _8_Puzzle_Solution;
 
 class _8_Puzzle
 {
+	typedef unsigned int STATUS;
+	static const STATUS ERROR = 0, DONE = 1;
 public:
 	_8_Puzzle()
 	{
@@ -61,8 +51,3 @@ private:
 	vector <_8_Puzzle> Solution;
 	friend _8_Puzzle;
 };
-
-
-
-
-#endif
