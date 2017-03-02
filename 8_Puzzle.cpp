@@ -142,30 +142,23 @@ _8_Puzzle::STATUS _8_Puzzle::MoveZeroRight()
 		return(_8_Puzzle::ERROR);
 }
 
-unsigned int _8_Puzzle::HeuristicFunction(_8_Puzzle Target)
+_8_Puzzle::STATUS _8_Puzzle::Move(_8_Puzzle::MOVE param)
 {
-	int i, j,H=0;
-	for (i = 0; i < 9; i++)
+	switch (param)
 	{
-		for (j = 0; j < 9; j++)
-		{
-			if (this->Element[i] != 0 && this->Element[i] == Target.Element[j])
-				H = H + abs(i / 3 - j / 3) + abs(i % 3 - j % 3);
-		}
+	case 0:
+		return(this->MoveZeroUp());
+	case 1:
+		return(this->MoveZeroUp());
+	case 2:
+		return(this->MoveZeroUp());
+	case 3:
+		return(this->MoveZeroUp());
+	default:
+		return _8_Puzzle::ERROR;
 	}
-	return (H);
 }
-
-int _8_Puzzle::PuzzleID_1(_8_Puzzle Puzzle)
-{
-	unsigned int i;
-	int PuzzleID=0;
-	for (i = 0; i < 9; i++)
-		PuzzleID = PuzzleID + Puzzle.Element[i]*pow(9, i);//6053444~381360744
-	return(PuzzleID-6053444);
-}
-
-int _8_Puzzle::PuzzleID_2(_8_Puzzle Puzzle)
+int _8_Puzzle::Encode(_8_Puzzle &Puzzle)
 {
 	unsigned int i;
 	int PuzzleID = 0;
@@ -174,163 +167,61 @@ int _8_Puzzle::PuzzleID_2(_8_Puzzle Puzzle)
 	return(PuzzleID);
 }
 
-bool _8_Puzzle::SearchSolution(_8_Puzzle Origin,_8_Puzzle Target, _8_Puzzle_Solution &Solution)
+_8_Puzzle _8_Puzzle::Decode(int serial)
 {
-	_8_Puzzle PNext;
-	queue <_8_Puzzle> open;
-	queue <unsigned int>open_p;
-	vector <_8_Puzzle> closed;
-	vector <unsigned int> closed_p;
-	while (open.empty() == false)
-		open.pop();
-	closed.clear();
-	closed_p.clear();
-	if (Origin==Target)
+	_8_Puzzle decode;
+	for (int i = 0; i < 9; i++)
 	{
-		Solution.Solution.push_back(Origin);
-		return(true);
+		decode.Element[i] = serial % 10;
+		serial = serial / 10;
 	}
-	else
+	return(decode);
+}
+
+vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target)
+{
+	vector<_8_Puzzle> Solution;
+	if (Origin == Target)
 	{
-		open.push(Origin);
-		open_p.push(0);
+		Solution.push_back(Target);
+		return(Solution);
 	}
-	while (open.empty() == false)
+	queue <int> open;
+	hash_map <int,int> closed;
+	const _8_Puzzle::SERIAL TargetSerial=Encode(Target);
+	open.push(Encode(Origin));
+	closed[Encode(Origin)] = 0;//closed[NodeSerial]=[ParentNodeSerial]
+	bool SolutionExistence = false;
+	while ((SolutionExistence=((closed.find(TargetSerial))==closed.end()))&&(open.empty()==false))
 	{
-		_8_Puzzle TestSolution[4];
-		int num = 0, i = 0, j = 0, p = 0, TestSolution_p[4];
-		closed.push_back(open.front());
-		closed_p.push_back(open_p.front());
-		num = 0;
-		TestSolution[num] = open.front();
-		//cout << "Expanding:" << endl;
-		//TestSolution[num].Print8_Puzzle();
-		if (TestSolution[num].MoveZeroUp() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
+		_8_Puzzle Node = Decode(open.front()), NewNode;
+		for (int move_i = 0; move_i < 4; move_i++)
 		{
-			TestSolution_p[num] = 1;
-			if (TestSolution[num]==Target)
+			NewNode = Node;
+			if (NewNode.Move(move_i) == _8_Puzzle::DONE)
 			{
-				Solution.Solution.push_back(Target);
-				PNext = open.front();
-				break;
-			}
-			num++;
-		}
-
-		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroDown() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
-		{
-			TestSolution_p[num] = 2;
-			if (TestSolution[num]==Target)
-			{
-				Solution.Solution.push_back(Target);
-				PNext = open.front();
-				break;
-			}
-			num++;
-		}
-
-		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroLeft() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
-		{
-			TestSolution_p[num] = 3;
-			if (TestSolution[num]==Target)
-			{
-				Solution.Solution.push_back(Target);
-				PNext = open.front();
-				break;
-			}
-			num++;
-		}
-
-		TestSolution[num] = open.front();
-		if (TestSolution[num].MoveZeroRight() == _8_Puzzle::DONE && (find(closed.begin(), closed.end(), TestSolution[num]) == closed.end()))
-		{
-			TestSolution_p[num] = 4;
-			if (TestSolution[num]==Target)
-			{
-				Solution.Solution.push_back(Target);
-				PNext = open.front();
-				break;
-			}
-			num++;
-		}
-
-		for (i = 0; i < (num - 1); i++)
-		{
-			for (j = 0; j < (num - 1 - i); j++)
-			{
-				if (TestSolution[j].HeuristicFunction(Target) > TestSolution[j + 1].HeuristicFunction(Target))
+				int NewSerial = Encode(NewNode);
+				if (closed.find(NewSerial) == closed.end())
 				{
-					_8_Puzzle Puzzle_temp;
-					unsigned int p_temp;
-					Puzzle_temp = TestSolution[j + 1];
-					TestSolution[j + 1] = TestSolution[j];
-					TestSolution[j] = Puzzle_temp;
-					p_temp = TestSolution_p[j + 1];
-					TestSolution_p[j + 1] = TestSolution_p[j];
-					TestSolution_p[j] = p_temp;
+					closed[NewSerial] = open.front();
+					open.push(NewSerial);
+				}
+				if (NewNode == Target)
+				{
+					break;
 				}
 			}
 		}
-
-		for (i = 0; i < num; i++)
-		{
-			//TestSolution[i].Print8_Puzzle();
-			//unsigned int H=TestSolution[i].HeuristicFunction(Target);
-			//cout << H << endl;
-			open.push(TestSolution[i]);
-			open_p.push(TestSolution_p[i]);
-		}
 		open.pop();
-		open_p.pop();
 	}
-	if (open.empty() == true)
-		return (false);
-	else
+	if (SolutionExistence == false)
+		return Solution;
+	_8_Puzzle::SERIAL SolutionTrajectory = TargetSerial;
+	while (SolutionTrajectory!=0)
 	{
-		while (Origin!=PNext)
-		{
-			Solution.Solution.push_back(PNext);
-			unsigned int i;
-			for (i = 0; i < closed.size(); i++)
-			{
-				if (closed[i]==PNext)
-				{
-					switch (closed_p[i])
-					{
-					case 1:
-						PNext.MoveZeroDown();
-						break;
-					case 2:
-						PNext.MoveZeroUp();
-						break;
-					case 3:
-						PNext.MoveZeroRight();
-						break;
-					case 4:
-						PNext.MoveZeroLeft();
-						break;
-					}
-				}
-			}
-		}
-		Solution.Solution.push_back(PNext);
-		return (true);
+		Solution.insert(Solution.begin(), Decode(SolutionTrajectory));
+		SolutionTrajectory = closed[SolutionTrajectory];
 	}
-}
-
-void _8_Puzzle_Solution::print()
-{
-	int i;
-	for (i = Solution.size() - 1; i >= 0; i--)
-	{
-		cout << "Step number :" << Solution.size() - i - 1 << endl;
-		Solution[i].Print8_Puzzle();
-	}
-}
-
-int _8_Puzzle_Solution::steps_in_total()
-{
-	return((this->Solution.size()>0) ? this->Solution.size() - 1 : 0);
+	return(Solution);
+	
 }
