@@ -7,6 +7,7 @@ void main()
 	Origin.USER_Set8_Puzzle();
 	cout << "Set Target:" << endl;
 	Target.USER_Set8_Puzzle();
+	system("cls");
 	cout << "Origin:" << endl;
 	Origin.Print8_Puzzle();
 	cout << "Target:" << endl;
@@ -17,6 +18,7 @@ void main()
 	t_begin = clock();
 	vector<_8_Puzzle> Solution;
 	Solution = _8_Puzzle::SearchSolution(Origin, Target);
+	t_end = clock();
 	if (Solution.empty()==false)
 	{
 		for (int i = 0; i < Solution.size(); i++)
@@ -28,7 +30,6 @@ void main()
 	}
 	else
 		cout << "No Solution." << endl;
-	t_end = clock();
-	cout << "Total time elapsed: " << endl << (t_end - t_begin)<<"ms"<<endl;
+	cout << "Total time elapsed: " << endl << (t_end - t_begin) << "ms" << endl;
 	system("pause");
 }
