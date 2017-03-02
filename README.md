@@ -2,7 +2,7 @@
 
 This is a test program to solve the 8-Puzzle problem. 
 
-Algorithm applied: Breadth-First-Search. 
+Algorithm applied: [Breadth-First-Search](https://en.wikipedia.org/wiki/Breadth-first_search). 
 
 # Notice
 
