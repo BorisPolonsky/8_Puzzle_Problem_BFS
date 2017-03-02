@@ -1,8 +1,10 @@
-Brief
+# Brief
 
 This is a test program to solve the 8-Puzzle problem. 
 
 Algorithm applied: Breadth-First-Search. 
+
+# Notice
 
 Please make sure all parameters entered are valid. 
 
@@ -10,10 +12,6 @@ There are bugs to be found.
 
 Any suggestion will be welcomed. 
 
+# Disclaimer
 
-
-
-
-Disclaimer
-
-This program is not responsible for any information it has provided. 
+This program is not responsible for any information it has produced. 
