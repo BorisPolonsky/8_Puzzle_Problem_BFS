@@ -7,9 +7,7 @@ _8_Puzzle::STATUS _8_Puzzle::USER_Set8_Puzzle()
 	{
 		for(j=0;j<3;j++)
 		{
-			//printf("Row:%d Column:%d\n'0' represents a void.\n\nEnter a number(0-8). ",i+1,j+1);
 			cout << "Row:" << i + 1 << endl << "Column:" << j + 1 << endl << "'0' represents a void." << endl << endl << "Enter a number(0-8). " << endl;
-			/*scanf_s("%d",&(this->Element[3*i+j]));*/
 			cin >> (this->Element[3 * i + j]);
 		}
 	}
@@ -149,11 +147,11 @@ _8_Puzzle::STATUS _8_Puzzle::Move(_8_Puzzle::MOVE param)
 	case 0:
 		return(this->MoveZeroUp());
 	case 1:
-		return(this->MoveZeroUp());
+		return(this->MoveZeroDown());
 	case 2:
-		return(this->MoveZeroUp());
+		return(this->MoveZeroLeft());
 	case 3:
-		return(this->MoveZeroUp());
+		return(this->MoveZeroRight());
 	default:
 		return _8_Puzzle::ERROR;
 	}
@@ -192,7 +190,7 @@ vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target
 	open.push(Encode(Origin));
 	closed[Encode(Origin)] = 0;//closed[NodeSerial]=[ParentNodeSerial]
 	bool SolutionExistence = false;
-	while ((SolutionExistence=((closed.find(TargetSerial))==closed.end()))&&(open.empty()==false))
+	while (SolutionExistence == false && open.empty() == false)
 	{
 		_8_Puzzle Node = Decode(open.front()), NewNode;
 		for (int move_i = 0; move_i < 4; move_i++)
@@ -208,6 +206,7 @@ vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target
 				}
 				if (NewNode == Target)
 				{
+					SolutionExistence = true;
 					break;
 				}
 			}
@@ -223,5 +222,5 @@ vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target
 		SolutionTrajectory = closed[SolutionTrajectory];
 	}
 	return(Solution);
-	
+
 }
