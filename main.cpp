@@ -12,7 +12,7 @@ void main()
 	Origin.Print8_Puzzle();
 	cout << "Target:" << endl;
 	Target.Print8_Puzzle();
-	cout << "Press anykey to confirm configuration and start searching solution. " << endl;
+	cout << "Press anykey to confirm configuration and start searching for solution. " << endl;
 	system("pause>nul");
 	clock_t t_begin, t_end;
 	t_begin = clock();
