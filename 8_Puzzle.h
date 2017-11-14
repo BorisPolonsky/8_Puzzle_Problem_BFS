@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <math.h>
 #include <initializer_list>
+using namespace __gnu_cxx;
 using namespace std;
 
 class _8_Puzzle_Solution;

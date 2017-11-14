@@ -1,19 +1,17 @@
 #include "main.h"
 
-void main()
+int main()
 {
+	system("clear");
 	_8_Puzzle Origin, Target;
 	cout << "Set Origin:" << endl;
 	Origin.USER_Set8_Puzzle();
 	cout << "Set Target:" << endl;
 	Target.USER_Set8_Puzzle();
-	system("cls");
 	cout << "Origin:" << endl;
 	Origin.Print8_Puzzle();
 	cout << "Target:" << endl;
 	Target.Print8_Puzzle();
-	cout << "Press anykey to confirm configuration and start searching for solution. " << endl;
-	system("pause>nul");
 	clock_t t_begin, t_end;
 	t_begin = clock();
 	vector<_8_Puzzle> Solution;
@@ -30,6 +28,6 @@ void main()
 	}
 	else
 		cout << "No Solution." << endl;
-	cout << "Total time elapsed: " << endl << (t_end - t_begin) << "ms" << endl;
-	system("pause");
+	cout << "Total time elapsed: " << endl <<(double)(t_end - t_begin)/CLOCKS_PER_SEC << "s" << endl;
+	return 0;
 }
