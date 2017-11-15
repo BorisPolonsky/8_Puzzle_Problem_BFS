@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <hash_map>
+#include <unordered_map>
 #include <algorithm>
 #include <math.h>
 using namespace std;
@@ -29,7 +29,6 @@ public:
 	bool operator ==(_8_Puzzle const &);
 	bool operator !=(_8_Puzzle &);
 	bool operator !=(_8_Puzzle const &);
-	unsigned int HeuristicFunction(_8_Puzzle);
 	STATUS MoveZeroUp();
 	STATUS MoveZeroDown();
 	STATUS MoveZeroLeft();

@@ -165,7 +165,7 @@ int _8_Puzzle::Encode(_8_Puzzle &Puzzle)
 	return(PuzzleID);
 }
 
-_8_Puzzle _8_Puzzle::Decode(int serial)
+_8_Puzzle _8_Puzzle::Decode(SERIAL serial)
 {
 	_8_Puzzle decode;
 	for (int i = 0; i < 9; i++)
@@ -185,7 +185,7 @@ vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target
 		return(Solution);
 	}
 	queue <int> open;
-	hash_map <int,int> closed;
+	unordered_map<SERIAL,SERIAL> closed;
 	const _8_Puzzle::SERIAL TargetSerial=Encode(Target);
 	open.push(Encode(Origin));
 	closed[Encode(Origin)] = 0;//closed[NodeSerial]=[ParentNodeSerial]
@@ -222,5 +222,4 @@ vector<_8_Puzzle> _8_Puzzle::SearchSolution(_8_Puzzle &Origin, _8_Puzzle &Target
 		SolutionTrajectory = closed[SolutionTrajectory];
 	}
 	return(Solution);
-
 }
