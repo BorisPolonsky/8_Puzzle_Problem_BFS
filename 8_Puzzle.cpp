@@ -1,5 +1,25 @@
 #include "8_Puzzle.h"
 
+_8_Puzzle::_8_Puzzle()
+{
+	unsigned int i;
+	for (i = 0; i < 9; i++)
+		Element[i] = i;
+}
+
+_8_Puzzle::_8_Puzzle(initializer_list<unsigned int> flatten_array)
+{
+	if (flatten_array.size() != 9)
+	{
+		throw(flatten_array);
+	}
+	unsigned int *p = this->Element;
+	for (auto q = flatten_array.begin(); q != flatten_array.end(); p++, q++)
+	{
+		*p = *q;
+	}
+}
+
 _8_Puzzle::STATUS _8_Puzzle::USER_Set8_Puzzle()
 {
 	unsigned int i,j;
@@ -160,9 +180,13 @@ int _8_Puzzle::Encode(_8_Puzzle &Puzzle)
 {
 	unsigned int i;
 	int PuzzleID = 0;
+	int order = 1;
 	for (i = 0; i < 9; i++)
-		PuzzleID = PuzzleID + Puzzle.Element[i] * pow(10, i);//12345678~876543210
-	return(PuzzleID);
+	{
+		PuzzleID = PuzzleID + Puzzle.Element[i] * order;
+		order *= 10;
+	}
+	return(PuzzleID);//12345678~876543210
 }
 
 _8_Puzzle _8_Puzzle::Decode(SERIAL serial)
